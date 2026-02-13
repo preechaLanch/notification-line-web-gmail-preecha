@@ -1,21 +1,39 @@
 'use client'
 
 import { useState } from 'react'
-import { loginAction } from '@/app/actions/auth' // ดึงตัวจัดการ Cookie มาใช้
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // ฟังก์ชันรองรับการกด Login แบบปกติ (Username/Password)
+  // ปรับฟังก์ชันให้รับ FormData ตรงๆ จากการกด Submit
   async function handleLoginSubmit(formData: FormData) {
     setLoading(true)
     setError('')
     
-    const result = await loginAction(formData)
-    
-    if (result?.error) {
-      setError(result.error)
+    // แปลง FormData เป็น JSON เพื่อส่งให้ API
+    const data = Object.fromEntries(formData.entries())
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
+        // ถ้าล็อกอินสำเร็จ ให้วาร์ปไปหน้าหลักทันที
+        window.location.href = "/"
+      } else {
+        // ถ้า API พ่น Error กลับมา (เช่น รหัสผิด)
+        setError(result.error || "Username หรือ Password ไม่ถูกต้อง")
+        setLoading(false)
+      }
+    } catch (err) {
+      console.error("Login error:", err)
+      setError("ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้")
       setLoading(false)
     }
   }
