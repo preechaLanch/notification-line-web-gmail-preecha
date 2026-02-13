@@ -1,37 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notification Line Web Gmail (Preecha)
 
-## Getting Started
+ระบบแจ้งเตือนอเนกประสงค์ (LINE, Gmail, Web Push) ด้วย Next.js, Prisma, Supabase, LINE, Google, Web Push
 
-First, run the development server:
+## วิธีเริ่มต้นใช้งาน
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. **Clone โปรเจกต์นี้**
+	```
+	git clone https://github.com/preechaLanch/notification-line-web-gmail-preecha.git
+	cd notification-line-web-gmail-preecha
+	```
+
+2. **ติดตั้ง dependencies**
+	```
+	npm install
+	```
+
+3. **ตั้งค่าไฟล์ .env**
+	- สร้างไฟล์ `.env` ที่ root ของโปรเจกต์ (หรือคัดลอกจากตัวอย่างด้านล่าง)
+	- ใส่ค่า key ต่างๆ ตามนี้:
+
+```env
+DATABASE_URL=...              # URL สำหรับเชื่อมต่อฐานข้อมูล (Postgres/Supabase)
+DIRECT_URL=...                # URL สำหรับเชื่อมต่อฐานข้อมูลโดยตรง (ใช้กับ Prisma)
+
+# LINE Login
+LINE_CLIENT_ID=...            # Client ID จาก LINE Developer Console
+LINE_CLIENT_SECRET=...        # Client Secret จาก LINE Developer Console
+NEXTAUTH_URL=...              # URL ของแอป (เช่น http://localhost:3000)
+
+# LINE Messaging API
+LINE_MESSAGING_API_TOKEN=...  # Channel access token สำหรับส่งข้อความ LINE
+
+# Google Cloud Console
+GOOGLE_CLIENT_ID=...          # Client ID จาก Google Cloud Console
+GOOGLE_CLIENT_SECRET=...      # Client Secret จาก Google Cloud Console
+GOOGLE_REDIRECT_URI=...       # Redirect URI (เช่น http://localhost:3000/api/auth/google/callback)
+
+# Web Push
+NEXT_PUBLIC_VAPID_PUBLIC_KEY=... # Public Key สำหรับ Web Push (ใช้ฝั่ง client)
+VAPID_PRIVATE_KEY=...             # Private Key สำหรับ Web Push (ใช้ฝั่ง server)
+VAPID_MAILTO=...                  # Email สำหรับติดต่อ (ใช้กับ Web Push)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **หมายเหตุ:**
+> - ข้อมูล key ทั้งหมดต้องขอจาก LINE Developer, Google Cloud, และสร้าง Web Push Key Pair เอง
+> - ห้าม commit ไฟล์ .env ขึ้น public repo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **รันโปรเจกต์**
+	```
+	npm run dev
+	```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ฟีเจอร์หลัก
+- Login/สมัครสมาชิกด้วย LINE, Gmail, Username/Password
+- ส่งแจ้งเตือนผ่าน LINE, Gmail, Web Push
+- Dashboard เลือกผู้รับและช่องทางได้
 
-## Learn More
+## โครงสร้างโปรเจกต์ (บางส่วน)
 
-To learn more about Next.js, take a look at the following resources:
+- `src/app/api/auth/`         : API สำหรับ auth (login, register, LINE, Google)
+- `src/app/api/notifications/`: API สำหรับส่งแจ้งเตือน
+- `src/components/`           : React Components
+- `src/lib/`                  : Prisma, Supabase, Web Push utils
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# notification-line-web-gmail-preecha
+---
+ติดต่อผู้พัฒนา: preecha.lanch@gmail.com
