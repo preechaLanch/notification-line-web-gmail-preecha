@@ -1,0 +1,58 @@
+// Prisma schema for users, push_subscriptions, notification_logs
+generator client {
+	provider = "prisma-client-js"
+}
+
+datasource db {
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
+}
+
+model User {
+	id                 Int      @id @default(autoincrement())
+	username           String?  @unique
+	password_hash      String?
+	email              String?  @unique
+	line_user_id       String?  @unique
+	line_display_name  String?
+	line_picture_url   String?
+    google_refresh_token String?    @db.Text
+	can_receive_email  Boolean  @default(false)
+	can_receive_line   Boolean  @default(false)
+	can_receive_push   Boolean  @default(false)
+	login_provider     String
+	created_at         DateTime @default(now())
+	updated_at         DateTime @updatedAt
+	push_subscriptions PushSubscription[]
+	notification_logs  NotificationLog[]
+}
+
+model PushSubscription {
+	id           Int      @id @default(autoincrement())
+	user_id      Int
+	endpoint     String
+	p256dh_key   String
+	auth_key     String
+	browser_name String?
+	device_type  String?
+	is_active    Boolean  @default(true)
+	created_at   DateTime @default(now())
+	user         User     @relation(fields: [user_id], references: [id])
+}
+
+model NotificationLog {
+	id              Int      @id @default(autoincrement())
+	user_id         Int
+	message         String
+	title           String?
+	sent_via_email  Boolean  @default(false)
+	sent_via_line   Boolean  @default(false)
+	sent_via_push   Boolean  @default(false)
+	email_status    String?
+	line_status     String?
+	push_status     String?
+	scheduled_at    DateTime?
+	sent_at         DateTime?
+	created_at      DateTime @default(now())
+	user            User     @relation(fields: [user_id], references: [id])
+}
