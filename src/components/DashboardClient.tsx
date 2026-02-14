@@ -125,7 +125,7 @@ export default function DashboardClient({
                 userId: user.id,
                 title: "แจ้งเตือนจากระบบ",
                 message: message,
-                url: "/"
+                url: process.env.NEXT_PUBLIC_BASE_URL
               }),
             });
             console.log(response)

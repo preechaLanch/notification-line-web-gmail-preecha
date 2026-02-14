@@ -30,10 +30,10 @@ export async function POST(req: Request) {
     
     const payload = JSON.stringify({
       title: title || "แจ้งเตือนใหม่",
-      body: message || "คุณได้รับข้อความจากระบบ",
+      body: message,
       url: url,
     });
-    console.log("Payload:", payload);
+    
     
 
     // 4. วนลูปส่งหาทุกเครื่องที่ User คนนี้มี
