@@ -125,9 +125,9 @@ export default function DashboardClient({
                 userId: user.id,
                 title: "แจ้งเตือนจากระบบ",
                 message: message,
-                url: "/",
               }),
             });
+            console.log(response)
 
             if (!response.ok) {
               console.error(`Push failed for user ${user.id}`);
