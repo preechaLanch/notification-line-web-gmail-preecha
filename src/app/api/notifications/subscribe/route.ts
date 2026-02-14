@@ -27,11 +27,11 @@ export async function POST(req: Request) {
     }
 
     // 3. เตรียมข้อมูลที่จะส่ง (Payload)
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ;
     const payload = JSON.stringify({
       title: title || "แจ้งเตือนใหม่",
       body: message || "คุณได้รับข้อความจากระบบ",
-      url: url && url.startsWith("http") ? url : `${baseUrl}${url || "/"}`,
+      url: baseUrl,
     });
 
     // 4. วนลูปส่งหาทุกเครื่องที่ User คนนี้มี
