@@ -11,7 +11,7 @@ webPush.setVapidDetails(
 
 export async function POST(req: Request) {
   try {
-    const { userId, title, message } = await req.json();
+    const { userId, title, message , url } = await req.json();
 
     // 2. ดึง Token (Subscription) ทั้งหมดของ User คนนี้จาก DB
     // ใช้ชื่อฟิลด์ user_id ตาม Schema ของคุณ
@@ -27,13 +27,13 @@ export async function POST(req: Request) {
     }
 
     // 3. เตรียมข้อมูลที่จะส่ง (Payload)
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ;
+    
     const payload = JSON.stringify({
       title: title || "แจ้งเตือนใหม่",
       body: message || "คุณได้รับข้อความจากระบบ",
-      url: baseUrl,
+      url: url,
     });
-    console.log(baseUrl)
+    
 
     // 4. วนลูปส่งหาทุกเครื่องที่ User คนนี้มี
     const results = await Promise.allSettled(
