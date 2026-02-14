@@ -33,6 +33,7 @@ export async function POST(req: Request) {
       body: message || "คุณได้รับข้อความจากระบบ",
       url: url,
     });
+    console.log("Payload:", payload);
     
 
     // 4. วนลูปส่งหาทุกเครื่องที่ User คนนี้มี
